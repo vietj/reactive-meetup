@@ -43,7 +43,7 @@
 <div class="reveal">
 
   <div class="slides">
-    <section>
+    <section data-background-image="img/logo-vertx.png">
       <h1>RxJava 2.0 & more at Vert.X</h1>
       <p>
         <small><a href="http://www.julienviet.com">Julien Viet</a> / <a href="http://twitter.com/julienviet">@julienviet</a>
@@ -71,7 +71,7 @@
       </aside>
     </section>
 
-    <section>
+    <section data-background-image="img/logo-vertx.png">
 
       <section>
         <h3>Tool-kit</h3>
@@ -116,18 +116,20 @@ dependencies {
       </aside>
     </section>
 
-    <section>
-      <h3>Reactive</h3>
+    <section data-background-image="img/logo-vertx.png">
 
-      <aside class="notes">
-        <p></p>
-        <p></p>
-      </aside>
+      <section>
+        <h3>Reactive</h3>
+        <div>
+          <img class="stretch" src="img/reactive-traits.svg" style="border:0">
+        </div>
+      </section>
+
     </section>
 
     <section>
 
-      <section>
+      <section data-background-image="img/logo-vertx.png">
         <h3>Polyglot</h3>
         <ul>
           <li>Java 8</li>
@@ -142,7 +144,7 @@ dependencies {
 
       <section data-background-image="img/logo-java.jpg">
         <h3>Java 8</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="java">
 public class Server extends AbstractVerticle {
   public void start() {
     vertx.createHttpServer()
@@ -157,11 +159,12 @@ public class Server extends AbstractVerticle {
 
       <section data-background-image="img/logo-scala.png">
         <h3>Scala</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="scala">
 class Server extends ScalaVerticle {
   override def start(): Unit = {
-    vertx.createHttpServer()
-      .requestHandler(req => req.response()
+    vertx
+      .createHttpServer()
+      .requestHandler(_.response()
         .putHeader("content-type", "text/plain")
         .end("Hello from Vert.x!"))
       .listen(8080)
@@ -171,7 +174,7 @@ class Server extends ScalaVerticle {
 
       <section data-background-image="img/logo-kotlin.png">
         <h3>Kotlin</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="kotlin">
 class Server : AbstractVerticle() {
   override fun start() {
     vertx.createHttpServer()
@@ -188,7 +191,7 @@ class Server : AbstractVerticle() {
 
       <section data-background-image="img/logo-javascript.png">
         <h3>JavaScript</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="javascript">
 vertx.createHttpServer()
   .requestHandler(function (req) {
     req.response()
@@ -199,7 +202,7 @@ vertx.createHttpServer()
 
       <section data-background-image="img/logo-ceylon.png">
         <h3>Ceylon</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="ceylon">
 shared class Server() extends Verticle() {
   start() => vertx.createHttpServer()
     .requestHandler((req) =>
@@ -212,7 +215,7 @@ shared class Server() extends Verticle() {
 
       <section data-background-image="img/logo-groovy.png">
         <h3>Groovy</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="groovy">
 vertx.createHttpServer().requestHandler({ req ->
   req.response()
     .putHeader("content-type", "text/plain")
@@ -222,7 +225,7 @@ vertx.createHttpServer().requestHandler({ req ->
 
       <section data-background-image="img/logo-ruby.png">
         <h3>Ruby</h3>
-        <pre><code data-trim>
+        <pre><code data-trim class="ruby">
 $vertx.create_http_server().request_handler() { |req|
   req.response()
     .put_header("content-type", "text/plain")
@@ -246,8 +249,32 @@ $vertx.create_http_server().request_handler() { |req|
       </aside>
     </section>
 
-    <section>
-      <h3>RxJava and Vert.x</h3>
+    <section data-background-image="img/logo-rxjava.png">
+
+      <h3>RxJava</h3>
+
+      <p>Reactive Extensions for the JVM – a library for composing asynchronous and event-based
+        programs using observable sequences for the Java VM.</p>
+
+      <ul>
+        <li>Composable</li>
+        <li>Flexible</li>
+      </ul>
+
+      <aside class="notes">
+
+        COMPOSABLE : frees you from tangle webs of callbacks, and thereby makes your code more readable and
+        less prone to bugs.
+
+        FLEXIBLE : does not support just the emission of single scalar values but also a sequence of
+        values of even infinite streams.
+      </aside>
+
+
+    </section>
+
+    <section data-background-image="img/logo-vertx-rxjava.png">
+      <h3>Vert.x and RxJava</h3>
 
       <section>
         <ul>
@@ -256,25 +283,59 @@ $vertx.create_http_server().request_handler() { |req|
         </ul>
       </section>
 
-      <section>
-        <pre><code data-trim>
-Observable&lt;HttpServer> observable = vertx.createHttpServer()
-  .requestHandler(req -> handleRequest(req))
-  .listen(8080, "localhost");
+    </section>
 
-observable.subscribe(server -> {
-  System.out.println("Server started");
-}, err -> {
-  System.out.println("Something went wrong");
-  err.printStackTrace();
+    <section data-background-image="img/logo-vertx-rxjava.png">
+      <h3>Async coordination</h3>
+
+      <section>
+        <pre><code data-trim class="java">
+vertx.createHttpServer().listen(8080, result1 -> {
+  if (result1.succeeded()) {
+    HttpServer s2 = vertx.createHttpServer();
+    s2.listen(8081, result2 -> {
+      if (result2.succeeded()) {
+        System.out.println("Succeeded");
+      } else {
+        System.out.println("Failed");
+      }
+    });
+  } else {
+    System.out.println("Failed");
+  }
 });
         </code></pre>
       </section>
 
-      <section>
-        <pre><code data-trim>
+      <section data-background-image="img/logo-vertx-rxjava.png">
+        <pre><code data-trim class="java">
+Observable&lt;HttpServer> obs1 = vertx.createHttpServer()
+  .requestHandler(req -> handleRequest(req))
+  .listen(8080);
+Observable&lt;HttpServer> obs2 = vertx.createHttpServer()
+  .requestHandler(req -> handleRequest(req))
+  .listen(8081);
+
+Observable.concat(obs1, obs2)
+   .subscribe(server -> {
+      System.out.println("Server started");
+   }, err -> {
+      System.out.println("Something went wrong");
+      err.printStackTrace();
+   });
+        </code></pre>
+      </section>
+
+    </section>
+
+    <section>
+
+      <h3>Stream composition</h3>
+
+      <section data-background-image="img/logo-vertx-rxjava.png">
+        <pre><code data-trim class="java">
 EventBus eb = vertx.eventBus();
-MessageConsumer&lt;Double> cons = eb.messageConsumer("heat-sensor");
+MessageConsumer&lt;Integer> cons = eb.messageConsumer("sensor");
 
 List&lt;Double> samples = new ArrayList<>();
 
@@ -291,10 +352,10 @@ vertx.setPeriodic(1000, id -> {
         </code></pre>
       </section>
 
-      <section>
-        <pre><code data-trim>
+      <section data-background-image="img/logo-vertx-rxjava.png">
+        <pre><code data-trim class="java">
 EventBus eb = vertx.eventBus();
-MessageConsumer&lt;Double> cons = eb.messageConsumer("heat-sensor");
+MessageConsumer&lt;Double> cons = eb.messageConsumer("sensor");
 Observable&lt;Message&lt;Double>> obs = cons.toObservable();
 
 obs.map(msg -> msg.body()).
@@ -310,579 +371,113 @@ obs.map(msg -> msg.body()).
       </aside>
     </section>
 
-
-
-
-<!--
-
-
-    <section>
-      <a href="http://vertx.io"><img class="stretch" src="img/vertx.svg" style="border:0"></a>
-
-      <aside class="notes">
-        This talk is about Vert.x. Vert.x is a toolkit to build reactive applications.
-      </aside>
-    </section>
-
-    <section>
-      <section>
-        <h2>Reactive what's that?</h2>
-        <div>
-          <img class="stretch" src="img/reactive-traits.svg" style="border:0">
-        </div>
-
-        <aside class="notes">
-          Reactive programming is a programming paradigm oriented around data flows and the propagation of change. This
-          means that it should be possible to express static or dynamic data flows with ease in the programming languages
-          used, and that the underlying execution model will automatically propagate changes through the data flow.
-
-          Reactive has been built on these 4 principles.
-        </aside>
-      </section>
-
-      <section data-background-image="img/reactive-traits-bg.svg">
-        <h3>Responsive</h3>
-        <blockquote>
-          The system responds in a timely manner if at all possible. Responsiveness is the cornerstone of usability and
-          utility, but more than that, responsiveness means that problems may be detected quickly and dealt with
-          effectively.
-        </blockquote>
-
-        <aside class="notes">
-          The system responds in a timely manner if at all possible. Responsiveness is the cornerstone of usability and
-          utility, but more than that, responsiveness means that problems may be detected quickly and dealt with
-          effectively.
-        </aside>
-      </section>
-
-      <section data-background-image="img/reactive-traits-bg.svg">
-        <h3>Resilient</h3>
-        <blockquote>
-          The system stays responsive in the face of failure. This applies not only to highly-available, mission critical
-          systems — any system that is not resilient will be unresponsive after a failure.
-        </blockquote>
-
-        <aside class="notes">
-          The system stays responsive in the face of failure. This applies not only to highly-available, mission critical
-          systems — any system that is not resilient will be unresponsive after a failure.
-        </aside>
-      </section>
-
-      <section data-background-image="img/reactive-traits-bg.svg">
-        <h3>Elastic</h3>
-        <blockquote>
-          The system stays responsive under varying workload. Reactive Systems can react to changes in the input rate by
-          increasing or decreasing the resources allocated to service these inputs.
-        </blockquote>
-
-        <aside class="notes">
-          The system stays responsive under varying workload. Reactive Systems can react to changes in the input rate by
-          increasing or decreasing the resources allocated to service these inputs.
-        </aside>
-      </section>
-
-      <section data-background-image="img/reactive-traits-bg.svg">
-        <h3>Message Driven</h3>
-        <blockquote>
-          Reactive Systems rely on asynchronous message-passing to establish a boundary between components that ensures
-          loose coupling, isolation and location transparency. This boundary also provides the means to delegate failures
-          as messages.
-        </blockquote>
-
-        <aside class="notes">
-          Reactive Systems rely on asynchronous message-passing to establish a boundary between components that ensures
-          loose coupling, isolation and location transparency. This boundary also provides the means to delegate failures
-          as messages.
-        </aside>
-      </section>
-    </section>
-
-    <section>
-      <a href="http://vertx.io"><img class="stretch" src="img/vertx.svg" style="border:0"></a>
-
-      <aside class="notes">
-        Let's go again! This talk is about Vert.x. Vert.x is a toolkit to build reactive applications. A small library
-        fully packed with features. So what is vert.x in 5 words?
-      </aside>
-    </section>
-
-    <section data-background-image="img/vertx-bg.svg">
-      <h3>Toolkit</h3>
-      <pre><code data-trim>
-<dependency>
-    <groupId>io.vertx</groupId>
-    <artifactId>core</artifactId>
-    <version>3.3.2</version>
-</dependency>
-      </code></pre>
-      <aside class="notes">
-        It is a <b>toolkit</b>, or a <b>jar</b> if you like.
-      </aside>
-    </section>
-
-    <section data-background-image="img/vertx-bg.svg">
-      <h3>Unopinionated</h3>
-      <pre><code data-trim>
-import io.vertx.core.AbstractVerticle;
-public class Server extends AbstractVerticle {
-  public void start() {
-    vertx.createHttpServer().requestHandler(req -> {
-      req.response()
-        .putHeader("content-type", "text/plain")
-        .end("Hello from Vert.x!");
-    }).listen(8080);
-  }
-}</code></pre>
-      <aside class="notes">
-        It is <b>unopinionated</b>, you decide <b>exactly</b> how it <b>behaves</b>.
-      </aside>
-    </section>
-
-    <section data-background-image="img/vertx-bg.svg">
-      <h3>Reactive</h3>
-      <pre><code data-trim>
-conn.query("SELECT * from EMP", res -> {
-  if (res.succeeded()) {
-    // Get the result set
-    ResultSet resultSet = res.result();
-  } else {
-    // Failed!
-  }
-});</code></pre>
-      <aside class="notes">
-        It is a <b>reactive</b>, code never blocks.
-      </aside>
-    </section>
-
-    <section data-background-image="img/vertx-bg.svg">
-      <h3>Polyglot</h3>
-      <pre><code data-trim>
-$vertx.create_http_server().request_handler() { |req|
-  req.response()
-    .put_header("content-type", "text/plain")
-    .end("Hello from Vert.x!")
-}.listen(8080)</code></pre>
-      <aside class="notes">
-        <p>It is a <b>polyglot</b>, you choose the best language/tool for the job.</p>
-        <p>Don't be limited by what you already know.</p>
-      </aside>
-    </section>
-
-    <section data-background-image="img/vertx-bg.svg">
-      <h3>Distributed</h3>
-      <pre><code data-trim>
-EventBus eb = vertx.eventBus();
-
-eb.consumer("news.uk.sport", message -> {
-  println("I have received a message: " + message.body());
-});
-      </code></pre>
-      <aside class="notes">
-        And it is a <b>distributed</b>, all instances form a cluster and communicate over the <b>eventbus</b>.
-      </aside>
-    </section>
-
-    <section>
-      <h3>Why are we in the synchronous world?</h3>
-      <aside class="notes">
-        <p>So why are we living in this synchronous world?</p>
-
-        <p>Threading was the <b>key feature</b> of application servers. It was easier to model each request to an
-        <b>operating system</b> thread.</p>
-
-        <p>The concept was simple and easily grasped by developers.</p>
-
-        <p>It turns out that it has many flaws: <b>thread safety</b>, <b>locking</b>, <b>performance</b>, <b>etc...</b></p>
-
-        <p><b>Reactive</b> systems have noticed this long ago, and decided not to use <b>threads</b>.</p>
-
-        <p>This decision is what makes it hard to convert developers to the new way of coding, but we will get there,
-          one developer at the time.</p>
-      </aside>
-    </section>
-
-    <section>
-      <h2>Enterprise scale</h2>
-      <h5>Isn't web scale!</h5>
-      <aside class="notes">
-        So what is the problem with application servers? The answer is simple! <b>threads</b> can't scale.
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/Webscale.png" class="stretch" style="border:0">
-      <aside class="notes">
-        <p>Let me <b>rephrase</b> that. threads can't <b>web scale</b>. Remember, <b>app servers</b> were modeled
-          after mainframes, so scaling means, bigger, meaner machines.</p>
-
-        <p>Web scale is all about commodity hardware: <b>low latency</b>, <b>high performance</b>, <b>low costs</b>.</p>
-      </aside>
-    </section>
-
-    <section>
-      <h3>How does Vert.x scale?</h3>
-      <aside class="notes">
-        So the million dollar question is: <b>How does Vert.x scale?</b>
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/reactor-pattern.png" class="stretch" style="border:0">
-      <aside class="notes">
-        <p>The anwser is: <b>The reactor pattern</b>.</p>
-
-        <p>So what is this pattern all about?</p>
-
-        <p>First there is the Event Loop. The Event Loop is a thread that waits for and dispatches events or messages
-          (coming from the left) to a handler (a function you implement).</p>
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/reactor-pattern-blocking.png" class="stretch" style="border:0">
-      <aside class="notes">
-        The <b>golden rule</b> is: Never, ever, ever block the event loop, or else... the world will freeze!
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/nonstop.gif" class="stretch" style="border:0">
-      <aside class="notes">
-        This is how the event loop works in real life!
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/reactor-event-loop.png" class="stretch" style="border:0">
-      <aside class="notes">
-        <p>work arrives and the <b>event loop</b> keeps dispatching the incoming work to the
-        correct handler.</p>
-
-        <p>Now the handler might terminate the event, or push a new event to be processed by another handler sending it
-          back to the <b>event loop</b>.</p>
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/reactor-event-loop-many-events.png" class="stretch" style="border:0">
-      <aside class="notes">
-        Even with many jobs the event loop never stops so all gets dispatched to the right handler.
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/multi-reactor-pattern.png" class="stretch" style="border:0">
-      <aside class="notes">
-        <p>I need to keep the record straight. Vert.x does not have 1 Event Loop. In fact it will have 1 Event Loop per CPU
-        core.</p>
-
-        <p>For example on my laptop when i start a vert.x application, I will have 4 Event Loops.</p>
-      </aside>
-    </section>
-
-    <section>
-      <video autoplay loop muted>
-        <source data-src="img/multieventloop.mp4" type="video/mp4" />
-      </video>
-
-      <aside class="notes">
-        So it works more or less like this...
-      </aside>
-    </section>
-
-    <section>
-      <h3>Evolutionary migration</h3>
-      <aside class="notes">
-        <p>Vert.x is not a framework, it is a toolkit. It is a single library you can embed on an existing
-          application.</p>
-
-        <p>It will allow you to build your reactive application side by side with legacy code so you can replace it at
-          your own pace.</p>
-
-        <p>It is not a all or nothing approach!</p>
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/event-bus-ptp.png" class="stretch" style="border: 0">
-      <aside class="notes">
-        <p>The Reactor pattern gives CPU scalability but in order to scale in all directions, Vert.x will enforce a
-        <b>message driven architecture</b> with its <b>eventbus</b>.</p>
-
-        <p>The <b>eventbus</b> is the heart of Vert.x, it allows 3 types of message delivery: <b>point to point</b></p>
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/event-bus-ps.png" class="stretch" style="border: 0">
-      <aside class="notes">
-        Publish Subscribe
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/event-bus-rr.png" class="stretch" style="border: 0">
-      <aside class="notes">
-        Request Response, also known as RPC.
-      </aside>
-    </section>
-
-    <section>
-      <h3>To the point discovery</h3>
-      <aside class="notes">
-        <p>Vert.x <b>eventbus</b> is simple, it is addressed by a plain <b>String</b> you know what it means, and its
-        meaning is not coupled to a hostname or ip port.</p>
-        <p>Once you have an address you can communicate with any component.</p>
-      </aside>
-    </section>
-
-    <section>
-      <h3>Unlimited horizontal scaling</h3>
-      <img src="img/event-bus-distributed.png" class="stretch" style="border: 0">
-      <aside class="notes">
-        But you're not restricted just to your local <b>JVM</b>. The <b>eventbus</b> stretches across all vert.x nodes
-        forming a cluster, giving you <b>Unlimited Horizontal scaling</b>.
-      </aside>
-    </section>
-
-    <section>
-      <h3>Unlimited horizontal scaling</h3>
-      <img src="img/event-bus-bridge.png" class="stretch" style="border: 0">
-      <aside class="notes">
-        The eventbus protocol is so simple that it can even be extended to non Vert.x applications, such as
-        <b>Node.JS</b> or even <b>C</b> applications. In fact even your client's web-browser can join the event bus.
-      </aside>
-    </section>
-
-    <section>
-      <h3>Lightweight</h3>
-      <aside class="notes">
-        <b>vert.x</b> is light. It can run on from Raspberry Pi's to HPC clusters if you like!
-      </aside>
-    </section>
-
-    <section>
-      <h2>Time for action</h2>
-      <h5>C10k isn't a problem!</h5>
-      <aside class="notes">
-        <p>Is everyone aware of the C10K problem? The C10k problem was coined in 1999 by Dan Kegel and he was citing that
-          the website <a href="http://cdrom.com">cdrom.com</a> was serving 10.000 clients at once over 1 Gigabit Ethernet
-          that year.</p>
-
-        <p>So I've looked for some historical facts and found out that Intel released the Xeon CPU family in that year.
-          Finding such a CPU nowadays is quite hard but if one compares the CPU performance it seems that a Raspberry Pi
-          is as a equally performant contender. So why not look at this code in a Raspberry Pi2...</p>
-      </aside>
-    </section>
-
-    <section>
-      <h3>Showtime</h3>
-      <aside class="notes">
-        <p>Lets look at a variation of the C10K problem.</p>
-
-        <p>Instead of just concurrent requests lets think of <b>websockets</b>. <b>Websockets</b> require you to keep
-          state and the sockets open all the time.</p>
-
-        <p>For an application server, this means <b>10K threads</b>. We all know it won't fly.</p>
-      </aside>
-    </section>
-
-    <section>
-      <h3>C10K Server</h3>
-      <pre><code data-trim>
-app
-  .route("/eventbus/*")
-  .handler(SockJSHandler.create(vertx).bridge(options));
-
-vertx
-  .createHttpServer()
-  .requestHandler(app::accept)
-  .listen(8080, res -> {
-    // publish a new message every 10 sec
-    vertx.setPeriodic(10000L, t -> {
-      vertx.eventBus().publish("time", new JsonObject()
-          .put("unixtime", System.currentTimeMillis()));
-    });
-
-    System.out.println("Server ready!");
-  });
-      </code></pre>
-      <aside class="notes">
-        So lets look how you would implement a websocket server. This is just the juice, I can show the full code later.
-      </aside>
-    </section>
-
-    <section>
-      <h3>C10K Client</h3>
-      <pre><code data-trim>
-for (int i = 0; i < sockets.length; i++) {
-  vertx
-    .createHttpClient()
-    .websocket(8080, "localhost", "/eventbus/websocket", ws -> {
-      ws.frameHandler(frame -> println(frame.binaryData()));
-
-      // subscribe to the "time" address
-      ws.writeFrame(WebSocketFrame.textFrame(SUBSCRIBE, true));
-  });
-}
-      </code></pre>
-      <aside class="notes">
-        lets look at client code. This is just the juice.
-      </aside>
-    </section>
-
-    <section>
-      <h3>REAL DEMO</h3>
-      <aside class="notes">
-        Sorry for the small font but I just want you to see what is happening on this RPi2
-      </aside>
-    </section>
-
-    <section>
-      <video autoplay loop muted>
-        <source data-src="img/c10k.webm" type="video/webm" />
-      </video>
-
-      <aside class="notes">
-        <ul>
-          <li>it's a RPi2</li>
-          <li>Start a server (we need to do some linux setup)</li>
-          <li>Start a client (we need to do some linux setup)</li>
-          <li>Vert.x informs when you're blocking the event loop</li>
-          <li>check the open sockets</li>
-          <li>count them</li>
-          <li>top</li>
-        </ul>
-      </aside>
-    </section>
-
-    <section>
-      <h3>Back to the Basics</h3>
-      <aside class="notes">
-        <p>So you now see that reactive does pay!</p>
-
-        <p>I'll now show you a bit more of what Vert.x can do...</p>
-      </aside>
-    </section>
-
-    <section>
-      <h5>Realtime applications</h5>
-      <img src="img/realtime.gif" class="stretch" style="border: 0">
-
-      <p>
-        <small><a href="https://github.com/pmlopes/vert-x3-experiments/tree/realtime-canvas">https://github.com/pmlopes/vert-x3-experiments/tree/realtime-canvas</a></small>
-      </p>
-
-      <aside class="notes">
-        <ul>
-          <li>2 web clients</li>
-          <li>connected on the eventbus</li>
-          <li>publishing messages in realtime</li>
-        </ul>
-      </aside>
-    </section>
-
-    <section>
-      <h5>Low Latency HTTP2</h5>
-      <video autoplay loop muted>
-        <source data-src="img/http2.mp4" type="video/mp4" />
-      </video>
-
-      <p>
-        <small><a href="https://github.com/vert-x3/vertx-examples/tree/master/web-examples/src/main/java/io/vertx/example/web/http2">https://github.com/vert-x3/vertx-examples/tree/master/web-examples/src/main/java/io/vertx/example/web/http2</a></small>
-      </p>
-
-      <aside class="notes">
-        <ul>
-          <li>high performance means low latency, which today is HTTP2</li>
-          <li>Right HTTP1.1</li>
-          <li>Left HTTP2</li>
-        </ul>
-      </aside>
-    </section>
-
-    <section>
-      <h5>Microservice blueprint</h5>
-      <img src="img/entire-architecture.png" class="stretch" style="border: 0">
-
-      <p>
-        <small><a href="https://github.com/sczyh30/vertx-blueprint-microservice">https://github.com/sczyh30/vertx-blueprint-microservice</a></small>
-      </p>
-
-      <aside class="notes">
-        See how to quickly build a microservice application with:
-        <ul>
-          <li>Asynchronous development model</li>
-          <li>Reactive and functional patterns</li>
-          <li>Event sourcing patterns</li>
-          <li>Asynchronous RPC on the clustered event bus</li>
-          <li>Various type of services (e.g. REST, message source, event bus service)</li>
-          <li>Service discovery</li>
-          <li>Circuit breaker</li>
-          <li>Polyglot persistence support</li>
-          <li>API gateway</li>
-          <li>Global authentication (OAuth2 + Keycloak)</li>
-        </ul>
-      </aside>
-    </section>
-
-    <section data-state="performance">
-      <h2>Not convinced yet?</h2>
-      <figure id="performance" class="stretch"></figure>
-      <span class="fragment" id="springboot" style="visibility: hidden"></span>
-      <span class="fragment" id="wildfly" style="visibility: hidden"></span>
-      <span class="fragment" id="nodejs" style="visibility: hidden"></span>
-      <span class="fragment" id="vertx" style="visibility: hidden"></span>
-      <aside class="notes">
-        <p>I've just unravel the tip of the iceberg! Vert.x is not just about performance and scalability but lets look
-          at the <b>Techempower</b> benchmark for a second. Consider the <b>fortune</b> test.</p>
-
-        <p>In this test you are supposed to make an HTTP request to the server, go to a database get some data, apply
-          a template engine to format the data to html and return.</p>
-
-        <p>We then repeat the test with different concurrency levels, 8, 16, 32, 64, 128, 256 and measure the
-          <b>throughput</b>.</p>
-
-        <p>This is how <b>spring boot 1.2.5</b> performed; <b>wildfly 9.0.1 started slower but seems to handle
-          concurrency better at the end</b>; <b>nodejs 0.12.2</b> now you see why big companies like it so much; finally
-          <b>vert.x 3.2.1</b> i'll just let the numbers talk for themselves.</p>
-      </aside>
-    </section>
-
-    <section>
-      <h2>Vert.x 3</h2>
-      <h5>For your <span style="text-decoration: line-through;">next</span> current project!</h5>
-      <aside class="notes">
-        Are you going to choose Vert.x for your next project?
-      </aside>
-    </section>
-
-    <section>
-      <img src="img/vertx-1-slide.png" class="stretch" style="border: 0">
-      <aside class="notes">
-        <p>One last time. Let me put it all in one slide.</p>
-
-        <p>Vert.x is <b>polyglot</b>, you implement <b>verticles</b> with one or many <b>handlers</b>. <b>Events</b> are
-          dispatched from the <b>event loops</b> and you communicate over the <b>eventbus</b> across the cluster.</p>
-      </aside>
-    </section>
-
-    <section>
-      <h3>Thank you!</h3>
+    <section data-background-image="img/logo-rxjava.png">
+      <h3>RxJava 2</h3>
       <ul>
-        <li>Vert.x is fun!</li>
-        <li><a href="http://vertx.io">http://vertx.io</a></li>
-        <li><a href="https://jaxlondon.com/jax-awards/">https://jaxlondon.com/jax-awards</a></li>
+        <li>Release 2.0 scheduled soon</li>
+        <li>Evolution of RxJava 1 API</li>
+        <li>Full rewrite</li>
+        <li>Based on Reactive Streams</li>
+        <li>Better performances</li>
       </ul>
-      <aside class="notes">
-        <p>Remember: <b>Vert.x is fun!</b> and vote for us @JAX-Awards!</p>
-
-        <p>Thanks for your time and I hope you enjoyed and if there are questions please do ask or come closer to the
-          stage.</p>
-      </aside>
     </section>
 
--->
+    <section data-background-image="img/logo-rxjava.png">
+
+      <h3>Java packages and Maven coordinates changes</h3>
+
+      <ul>
+        <li>rx.Observable -> io.reactivex.Observable</li>
+        <li>io.reactivex.rxjava:rxjava -> io.reactivex.rxjava2:rxjava</li>
+      </ul>
+
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+      <h3>Observable interface is not back-pressured anymore</h3>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+      <h3>RxJava 2 stream types</h3>
+      <ul>
+        <li>Observable: multiple results</li>
+        <li>Flowable: 0..n back-pressured</li>
+      </ul>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+      <h3>RxJava 2 promise like types</h3>
+      <ul>
+        <li>Single: 1 result</li>
+        <li>Maybe: 0 or 1</li>
+        <li>Completable: 0</li>
+      </ul>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+      <h3>Null values are not allowed anymore!!!</h3>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+      <p>Use Maybe&lt;T> or Completable&lt;T></p>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+        <pre><code data-trim>
+class MyType {
+  public static final MyType NULL_SENTINEL = new MyType();
+  ...
+}
+
+Observable&lt;MyType> observable = getObjects();
+
+observable.suscribe(obj -> {
+  if (obj == NULL_SENTINEL) {
+    // Null instance
+  } else {
+    // Not null
+  }
+});
+        </code></pre>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+        <pre><code data-trim>
+Observable&lt;Optional&lt;MyType>> observable = getObjects();
+
+observable.subscribe(opt -> {
+  opt.ifPresent(obj -> {
+    // Null instance
+  }
+});
+        </code></pre>
+    </section>
+
+    <section data-background-image="img/logo-rxjava.png">
+      <h3>Migrating from RxJava 1</h3>
+      <ul>
+        <li>Does not come for free</li>
+        <li>Full list of API change available</li>
+        <li>RxJava2Interop project provides RxJava1 / RxJava2 adapters</li>
+      </ul>
+    </section>
+
+    <section data-background-image="img/logo-vertx-rxjava.png">
+      <h3>Vert.x and RxJava 2</h3>
+      <ul>
+        <li>Changed to disallow null values in streams</li>
+        <li>Pick the right type according to the context: Completable, Maybe or Single</li>
+      </ul>
+    </section>
+
+    <section data-background-image="img/logo-vertx-rxjava.png">
+      <h3>Vert.x and RxJava 2</h3>
+      <ul>
+        <li>Support RxJava 1 and RxJava 2</li>
+        <li>Looks promising</li>
+      </ul>
+    </section>
+
   </div>
 
 </div>
