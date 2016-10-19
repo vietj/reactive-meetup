@@ -44,7 +44,7 @@
 
   <div class="slides">
     <section data-background-image="img/logo-vertx.png">
-      <h1>RxJava 2.0 & more at Vert.X</h1>
+      <h1>RxJava 2.0 & more at Vert.x</h1>
       <p>
         <small><a href="http://www.julienviet.com">Julien Viet</a> / <a href="http://twitter.com/julienviet">@julienviet</a>
         </small>
@@ -57,6 +57,17 @@
         <p>In the next 15 minutes I will be explaining to you how we are using RxJava at Vert.x and what we plan
           to go with RxJava.</p>
       </aside>
+    </section>
+
+    <section data-background-image="img/logo-vertx.png">
+      <h1>About me</h1>
+      <ul>
+        <li>Open source developer for 15 years</li>
+        <li>@vertx_project lead</li>
+        <li>Software engineer at Red Hat</li>
+        <li>https://github.com/vietj</li>
+        <li>@julienviet</li>
+      </ul>
     </section>
 
     <section data-background-image="img/logo-vertx.png">
@@ -114,17 +125,6 @@ dependencies {
         <p></p>
         <p></p>
       </aside>
-    </section>
-
-    <section data-background-image="img/logo-vertx.png">
-
-      <section>
-        <h3>Reactive</h3>
-        <div>
-          <img class="stretch" src="img/reactive-traits.svg" style="border:0">
-        </div>
-      </section>
-
     </section>
 
     <section>
@@ -232,21 +232,31 @@ $vertx.create_http_server().request_handler() { |req|
     .end("Hello from Vert.x!")
 }.listen(8080)</code></pre>
       </section>
+    </section>
 
-      <aside class="notes">
-        <p>So if we look back, we will see that application servers appeared around 1999 with the J2EE 1.2 spec.</p>
+    <section data-background-image="img/logo-vertx.png">
 
-        <p>And their task was to provide:</p>
+      <section>
+        <h3>Reactive</h3>
+        <div>
+          <img class="stretch" src="img/reactive-traits.svg" style="border:0">
+        </div>
+      </section>
 
-        <ul>
-          <li>Threading</li>
-          <li>Security</li>
-          <li>Transaction Management</li>
-          <li>Load balancing</li>
-        </ul>
+    </section>
 
-        <p>1999 was a very interesting year!...</p>
-      </aside>
+    <section data-background-image="img/logo-vertx.png">
+      <h3>Features</h3>
+      <ul>
+        <li>Event driven</li>
+        <li>Polyglot</li>
+        <li>Event bus</li>
+        <li>Lightweight / embeddable</li>
+        <li>Clustering / HA</li>
+      </ul>
+      <div>
+
+      </div>
     </section>
 
     <section data-background-image="img/logo-rxjava.png">
