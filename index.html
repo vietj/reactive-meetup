@@ -174,14 +174,13 @@ class Server extends ScalaVerticle {
         <pre><code data-trim>
 class Server : AbstractVerticle() {
   override fun start() {
-    vertx.createHttpServer(
-         HttpServerOptions(host = "localhost", port = 8080))
+    vertx.createHttpServer()
       .requestHandler() { req ->
         req.response()
           .putHeader("content-type", "text/plain")
           .end("Hello from Vert.x!")
       }
-      .listen()
+      .listen(8080)
     }
 }
 </code></pre>
